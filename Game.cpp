@@ -1,5 +1,7 @@
 #include "Game.h"
 #include "menu.h"
+#include<string>
+
 
 Menu menu3(1080,720);
 
@@ -13,6 +15,7 @@ Game::Game() :window(VideoMode(1080, 720), "Asteroid")
 
 Game::~Game()
 {
+	
 }
 
 void Game::run()
@@ -28,19 +31,13 @@ void Game::run()
 			update(dt.asSeconds());
 			render();
 		}
-		else if(gameOver)
+		else if(gameOver&&!gameWon)
 		{
-			if (gameWon)
-			{
-				gameWonScreen();
-
-			}
-			else
-			{
-				level = 0;
-				gameOverScreen();
+			clearMemory();
+			level = 0;
+			gameOverScreen();
 				
-			}
+
 			Event event;
 			while (window.pollEvent(event))
 			{
@@ -50,7 +47,21 @@ void Game::run()
 				}
 			}
 		}
-		
+		else if(gameOver&&gameWon)
+		{
+			level = 0;
+			gameWonScreen();
+			clearMemory();
+
+			Event event;
+			while (window.pollEvent(event))
+			{
+				if (event.type == Event::Closed)
+				{
+					window.close();
+				}
+			}
+		}
 		
 	}
 }
@@ -63,7 +74,27 @@ void Game::init()
 
 }
 
-
+void Game::clearMemory()
+{
+	for (int k = 0; k < enemies.size(); k++)
+	{
+		Enemy* enemy = enemies[k];
+		enemies.erase(enemies.begin() + k);
+		delete(enemy);
+	}
+	for (int k = 0; k < bosses.size(); k++)
+	{
+		Boss* boss = bosses[k];
+		bosses.erase(bosses.begin() + k);
+		delete boss;
+	}
+	for (int k = 0; k < lasers.size(); k++)
+	{
+		Laser* laser = lasers[0];
+		lasers.erase(lasers.begin()+k);
+		delete laser;
+	}
+}
 
 void Game::processEvent()
 {
@@ -301,7 +332,7 @@ void Game::spawnEnemies()
 	else
 	{
 		Enemy* enemy;
-		for (int i = 0; i <= level * 2; i++)
+		for (int i = 0; i <= level*2; i++)
 		{
 			enemy = chooseEnemy(i);
 			enemy->init();
@@ -359,7 +390,8 @@ void Game::gameWonScreen()
 	text.setCharacterSize(100);
 	sf::Event event;
         
-        while (window.pollEvent(event))
+   
+	while (window.pollEvent(event))
         {
             switch(event.type)
             {
@@ -370,7 +402,7 @@ void Game::gameWonScreen()
                             window.close();
                             menu3.run();
                             break;
-							
+
                     }
                     break;
                 case sf::Event::Closed:
@@ -378,6 +410,7 @@ void Game::gameWonScreen()
                     break;
             }
         }
+   
 	window.draw(rect);
 	window.draw(text);
 	window.display();
@@ -398,9 +431,12 @@ void Game::gameOverScreen()
 
 	text.setFont(font);
     text.setFillColor(sf::Color::Green);
-    text.setString("\t\t\t\t\t\t\t\tYou've Lost!!\n\n\n\t\t\t\t\tPress Enter to Play again");
+    text.setString("\t\t\t\t\t\t\t\tYou've Lost!!\n\n\n\t\t\t\t\tPress Enter to Play again ");
 	text.setPosition(20,200);
 	text.setCharacterSize(50);
+
+
+
 	sf::Event event;
         
         while (window.pollEvent(event))
@@ -424,6 +460,7 @@ void Game::gameOverScreen()
         }
 	window.draw(rect);
 	window.draw(text);
+
 	window.display();
 }
 

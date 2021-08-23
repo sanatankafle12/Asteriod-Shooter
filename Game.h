@@ -26,6 +26,7 @@ private:
 	void processEvent();
 	void update(float deltaTime);
 	void spawnEnemies();
+	void clearMemory();
 	Enemy* chooseEnemy(int i);
 	void render();
 	void shoot();
