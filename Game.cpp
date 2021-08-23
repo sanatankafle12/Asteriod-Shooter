@@ -262,12 +262,6 @@ void Game::update(float deltaTime)
 						gameWon = true;
 						gameOver = true;
 						//Clearing memory after  game
-						for (int k = 0; k < enemies.size(); k++)
-						{
-							Enemy* enemy = enemies[k];
-							enemies.erase(enemies.begin() + k);
-							delete(enemy);
-						}
 					}
 					lasers.erase(lasers.begin() + j);
 					delete(laser);
