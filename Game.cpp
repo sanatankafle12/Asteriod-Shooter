@@ -2,11 +2,13 @@
 #include "menu.h"
 #include<string>
 
+using namespace std;
 
 Menu menu3(1080,720);
 
 int Game::level = 0;
 int Game::finalLevel = 3;
+int Game::score = 0;
 
 Game::Game() :window(VideoMode(1080, 720), "Asteroid")
 {
@@ -34,7 +36,6 @@ void Game::run()
 		else if(gameOver&&!gameWon)
 		{
 			clearMemory();
-			level = 0;
 			gameOverScreen();
 				
 
@@ -49,7 +50,6 @@ void Game::run()
 		}
 		else if(gameOver&&gameWon)
 		{
-			level = 0;
 			gameWonScreen();
 			clearMemory();
 
@@ -239,7 +239,7 @@ void Game::update(float deltaTime)
 							enemies.erase(enemies.begin() + i);
 							delete(enemy);
 						}
-
+					score++;
 					}
 				}
 
@@ -265,6 +265,7 @@ void Game::update(float deltaTime)
 					}
 					lasers.erase(lasers.begin() + j);
 					delete(laser);
+					score++;
 				}
 			}
 		}
@@ -274,6 +275,7 @@ void Game::update(float deltaTime)
 			if (enemy->getSprite().getGlobalBounds().intersects(player.getSprite().getGlobalBounds()))
 			{
 				gameOver = true;
+				gameWon = false;
 			}
 		}
 		for (int i = 0; i < bosses.size(); i++)
@@ -283,6 +285,7 @@ void Game::update(float deltaTime)
 				intersects(player.getSprite().getGlobalBounds()))
 			{
 				gameOver = true;
+				gameWon = false;
 			}
 		}
 	
@@ -290,8 +293,25 @@ void Game::update(float deltaTime)
 	
 }
 
+
 void Game::render()
 {
+	sf::Text points;
+	sf::Font scorefont;
+	string str1 = "Level : ";
+	string str3 = "\nScore: ";
+	string str4 = to_string(score);
+	string str2 = to_string(level);
+	string str = str1+str2+str3+str4;
+	if(!scorefont.loadFromFile("arial.ttf"))
+    {
+        //handle error
+    }
+	points.setFont(scorefont);
+	points.setFillColor(sf::Color::Green);
+	points.setString(str);
+	points.setPosition(20,20);
+	points.setCharacterSize(30);
 	window.clear();
 	window.draw(backgroundSprite);
 	window.draw(player.getSprite());
@@ -307,7 +327,7 @@ void Game::render()
 	{
 		window.draw(boss->getSprite());
 	}
-	
+	window.draw(points);
 	window.display();
 }
 
@@ -326,7 +346,7 @@ void Game::spawnEnemies()
 	else
 	{
 		Enemy* enemy;
-		for (int i = 0; i <= level*2; i++)
+		for (int i = 0; i <= level*4; i++)
 		{
 			enemy = chooseEnemy(i);
 			enemy->init();
@@ -366,6 +386,10 @@ Enemy* Game::chooseEnemy(int i)
 
 void Game::gameWonScreen()
 {
+	string str1 = "\t\t\t\tCongrats!!\n \t\t\t\tYOU WON \npress enter to play again";
+	string str2 = "\n\t\t\t\t\t\t\tScore: ";
+	string str3 = to_string(score);
+	string str = str1+str2+str3;
 	RectangleShape rect;
 	rect.setFillColor(Color::Black);
 	rect.setSize(Vector2f(1080, 720));
@@ -379,9 +403,9 @@ void Game::gameWonScreen()
 
 	text.setFont(font);
     text.setFillColor(sf::Color::Green);
-    text.setString("Congrats!!\n YOU WON");
+    text.setString(str);
 	text.setPosition(200,200);
-	text.setCharacterSize(100);
+	text.setCharacterSize(50);
 	sf::Event event;
         
    
@@ -394,6 +418,8 @@ void Game::gameWonScreen()
                     {
 						case sf::Keyboard::Return:
                             window.close();
+							level = 0;
+							score = 0;
                             menu3.run();
                             break;
 
@@ -412,20 +438,24 @@ void Game::gameWonScreen()
 
 void Game::gameOverScreen()
 {
+	string str1 = "\t\t\t\t\t\t\t\tYou've Lost!!\n\t\t\t\t\tPress Enter to Play again ";
+	string str2 = "\n\t\t\t\t\t\t\tScore: ";
+	string str3 = to_string(score);
+	string str = str1+str2+str3;
 	RectangleShape rect;
 	rect.setFillColor(Color::Black);
 	rect.setSize(Vector2f(1080, 720));
 	window.clear();
 	sf::Text text;
 	sf::Font font;
-	if(!font.loadFromFile("Debrosee-ALPnL.ttf"))
+	if(!font.loadFromFile("arial.ttf"))
     {
         //handle error
     }
 
 	text.setFont(font);
     text.setFillColor(sf::Color::Green);
-    text.setString("\t\t\t\t\t\t\t\tYou've Lost!!\n\n\n\t\t\t\t\tPress Enter to Play again ");
+    text.setString(str);
 	text.setPosition(20,200);
 	text.setCharacterSize(50);
 
@@ -442,6 +472,8 @@ void Game::gameOverScreen()
                     {
 						case sf::Keyboard::Return:
                             window.close();
+							level = 0;
+							score = 0;
                             menu3.run();
                             break;
 

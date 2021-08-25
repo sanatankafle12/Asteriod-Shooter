@@ -23,6 +23,7 @@ public:
 private:
 	static int level;
 	static int finalLevel;
+	static int score;
 	void processEvent();
 	void update(float deltaTime);
 	void spawnEnemies();
@@ -41,7 +42,6 @@ private:
 	std::vector<Enemy*>enemies;
 	std::vector<Boss*>bosses;
 	bool gameWon;
-	sf::Text text;
-	sf::Font font;
+
 };
 

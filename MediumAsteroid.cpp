@@ -3,9 +3,6 @@
 
 void MediumAsteroid::init()
 {
-    //enemy.setFillColor(Color::Green);
-    //enemy.setSize(Vector2f(35, 35));
-    //enemy.setOrigin(enemy.getSize() / (float)2);
     enemyTexture.loadFromFile("asteriod.png");
     enemy.setTexture(enemyTexture);
     enemy.setScale(sf::Vector2f(0.25,0.25));
