@@ -18,9 +18,9 @@ void Boss::init()
 	angle = circle.getRotation() / 180 * M_PI - M_PI / 2;
 	velocity = Vector2f(std::cos(angle), std::sin(angle));
 	hitCount = 0;
-	noOfHitsRequired = 20;
+	noOfHitsRequired = 1;
 	normalAsteroid = true;
-	spawnTime = 8.0f;
+	spawnTime = 4.0f;
 	timeCount = 0;
 }
 

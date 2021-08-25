@@ -6,7 +6,7 @@ using namespace std;
 
 Menu menu3(1080,720);
 
-int Game::level = 0;
+int Game::level = 2;
 int Game::finalLevel = 3;
 int Game::score = 0;
 
@@ -386,8 +386,8 @@ Enemy* Game::chooseEnemy(int i)
 
 void Game::gameWonScreen()
 {
-	string str1 = "\t\t\t\tCongrats!!\n \t\t\t\tYOU WON \npress enter to play again";
-	string str2 = "\n\t\t\t\t\t\t\tScore: ";
+	string str1 = "Congrats!!\nYOU WON \npress enter to play again";
+	string str2 = "\nScore: ";
 	string str3 = to_string(score);
 	string str = str1+str2+str3;
 	RectangleShape rect;
@@ -396,7 +396,7 @@ void Game::gameWonScreen()
 	window.clear();
 	sf::Text text;
 	sf::Font font;
-	if(!font.loadFromFile("Debrosee-ALPnL.ttf"))
+	if(!font.loadFromFile("arial.ttf"))
     {
         //handle error
     }
@@ -438,8 +438,8 @@ void Game::gameWonScreen()
 
 void Game::gameOverScreen()
 {
-	string str1 = "\t\t\t\t\t\t\t\tYou've Lost!!\n\t\t\t\t\tPress Enter to Play again ";
-	string str2 = "\n\t\t\t\t\t\t\tScore: ";
+	string str1 = "\t\t\t\t\tYou've Lost!!\n\t\t\t\t\tPress Enter to Play again ";
+	string str2 = "\n\t\t\t\t\tScore: ";
 	string str3 = to_string(score);
 	string str = str1+str2+str3;
 	RectangleShape rect;
