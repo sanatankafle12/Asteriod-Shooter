@@ -8,8 +8,15 @@ Requirements:
 -> mingw 32
 -> SFML library
 
-Controls
+<h1> Controls </h1>
+<ul>
+    <li>Use Arrows to move the player around</li>
+    <li>Space Bar to shoot the bullets</li>
+ </ul>
 
-    Use the arrow keys or WASD to control the spaceship's movement.
-    Press the spacebar to shoot projectiles at the asteroids.
-
+ <h1>GamePlay</h1>
+ <ul>
+     <li>You are supposed to shoot all the asteriods flying around</li>
+     <li>One Asteriods keeps on following you and you can only kill it after you finish other asteriods</li>
+     <li>At level 3, you get the final boss</li>
+ </ul>
