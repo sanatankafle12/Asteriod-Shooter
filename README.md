@@ -7,3 +7,9 @@ Contains Asteriod game created by me and my friend as a group project for Object
 Requirements:
 -> mingw 32
 -> SFML library
+
+Controls
+
+    Use the arrow keys or WASD to control the spaceship's movement.
+    Press the spacebar to shoot projectiles at the asteroids.
+
